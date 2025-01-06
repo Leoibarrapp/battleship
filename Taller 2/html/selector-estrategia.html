@@ -43,10 +43,11 @@
         
            <div class="barcos">  
             
-            <div class="portaaviones"  draggable="true">
-            <img src="../assets/portaaviones.png" style="width: 220px; height: 44px;">
-            <p>Portaaviones</p>
-            </div>    
+            <div class="portaaviones-select" draggable="true" ondragstart="arrastrar(event)" ondragend="finArrastrar(event)">
+                <img src="../assets/portaaviones.png" style="width: 220px; height: 44px;">
+                <p>Portaaviones</p>
+            </div>
+            
 
             <div class="acorazado"  draggable="true">
             <img src="../assets/acorazado.png" style="width: 176px; height: 44px;">
@@ -77,4 +78,6 @@
             <p>Creado por Alejandro Cifuentes</p>
         </center>
     </footer>
+    <script src="../script.js"></script>
+
 </body>

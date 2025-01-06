@@ -99,3 +99,26 @@ function checkIfSink() {
         }
     }
 }
+
+function arrastrar(event) {
+    event.dataTransfer.setData("text", event.target.id);
+}
+
+function permitirSoltar(event) {
+    event.preventDefault();
+}
+
+function soltar(event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("text");
+    var elementoArrastrado = document.getElementById(data);
+    var casillaDestino = event.target.id; // Obtener el ID de la casilla de destino
+
+    // Aquí puedes añadir lógica para asegurar que el elemento ocupa 5 celdas
+    console.log(`Imagen soltada en la casilla: ${casillaDestino}`); // Mostrar el ID de la casilla en la consola
+    event.target.appendChild(elementoArrastrado);
+}
+
+function finArrastrar(event) {
+    event.dataTransfer.clearData();
+}
