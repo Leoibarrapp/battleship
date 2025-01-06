@@ -39,14 +39,14 @@ crearTablas(4);
 
 function shoot(event) {
     const classList = event.target.classList;
-    if (classList.contains('position')) {
+    if (classList == 'position') {
         event.target.classList.add('missed');
     } else if (
         classList.contains('acorazado') || classList.contains('submarino') || 
         classList.contains('portaaviones') || classList.contains('destructor') || 
         classList.contains('crucero')
     ) {
-        event.target.classList.add('hit');
+        event.target.appendChild(document.createElement('div')).className = 'hit';
     }
     // checkIfSink();
 }
@@ -62,9 +62,10 @@ function checkIfSink() {
     const ships = [acorazado, submarino, portaaviones, destructor, crucero];
 
     for (let ship of ships) {
-        const allHit = Array.from(ship).every(position => position.classList.contains('hit'));
-        if (allHit) {
-            ship.forEach(position => position.classList.add('sunk'));
+        for(let position of ship){
+            if(!position.classList.contains('hit')){
+                break;
+            }
         }
     }
 }
