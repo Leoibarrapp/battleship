@@ -1,0 +1,641 @@
+:root {
+    --color-fondo: #0d0d0d;
+    --color-texto: #f0f0f0;
+    --color-neon-cian: #00ffff;
+    --color-neon-magenta: #ff00ff;
+    --color-neon-amarillo: #FFFF33;
+    --sombra-cian: rgba(0, 255, 255, 0.8);
+    --sombra-magenta: rgba(255, 0, 255, 0.8);
+
+}
+
+#batalla-naval-page {
+    position: relative;
+    background-image: url('../assets/fondo1.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    z-index: 1; 
+}
+
+
+
+#batalla-naval-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/glitch.gif');
+    background-size: cover;
+    background-position: center center;
+    mix-blend-mode: screen; 
+    opacity: 0.1; 
+    z-index: 2; 
+    pointer-events: none;
+}
+
+
+#batalla-naval-page::before{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080; 
+    z-index: 1; 
+}
+
+.main-container {
+    position: relative;
+    z-index: 2; 
+}
+
+#titulo { 
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 70px;
+}
+
+
+#batalla-naval-page h1{
+    font-family: 'Orbitron', sans-serif;
+    font-size: 7rem;
+    font-style: italic;
+    color: #00ffff; 
+    text-shadow: 
+        0 0 5px #00ffff, 
+        0 0 15px #00ffff, 
+        0 0 30px #ff00ff, 
+        0 0 40px #ff00ff; 
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+    animation: flicker 2s infinite;
+}
+
+
+
+
+
+
+body {
+    background-color: #0d0d0d; 
+    color: #f0f0f0; 
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #0d0d0d;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    border-bottom: 3px solid #ff00ff;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow: 
+            0 0 5px #00ffff, 
+            0 0 15px #00ffff, 
+            0 0 30px #ff00ff, 
+            0 0 40px #ff00ff;
+    }
+    20%, 24%, 55% {
+        opacity: 0.6;
+        text-shadow: none;
+    }
+    22% {
+        opacity: 0.8;
+        text-shadow: 
+            0 0 5px #00ffff, 
+            0 0 10px #00ffff, 
+            0 0 15px #ff00ff, 
+            0 0 20px #ff00ff;
+    }
+}
+
+header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-style: italic;
+    color: #00ffff; 
+    text-shadow: 
+        0 0 5px #00ffff, 
+        0 0 15px #00ffff, 
+        0 0 30px #ff00ff, 
+        0 0 40px #ff00ff; 
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+    animation: flicker 2s infinite;
+}
+
+
+body h2{
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #FFFF33; 
+    font-weight: 400; 
+    text-shadow: 
+        0 0 5px #00ffff, 
+        0 0 15px #00ffff, 
+        0 0 30px #ff00ff, 
+        0 0 40px #ff00ff; 
+}
+
+.tableros-wrapper {
+    background-size: cover;
+    background-position: center center;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border-radius: 10px;
+    text-align: justify;
+    padding-bottom: 40px;
+  
+}
+
+.tableros {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px; width: 100%;
+}
+
+.tableros-enemigos {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px; width: 100%;
+}
+
+
+
+
+
+/* .battleship-board-p1 {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(11, 1fr);
+    border: 3px solid transparent;
+    border-radius: 5px; 
+    background-size: cover;
+    transform: perspective(800px) rotateX(45deg) rotateY(0deg) rotateZ(0deg);
+    transform-origin: bottom;
+}  */
+
+ .battleship-board-p2, .battleship-board-p1, .battleship-board-p3, .battleship-board-p4{
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(11, 1fr); border:
+    3px solid transparent; border-radius: 5px;
+    background-size: cover;
+}
+
+
+.battleship-board-p1 .position {
+    border: 1px solid #00ffff; 
+}
+
+.position {
+    border: 0.5px solid #ff00ff; 
+    height: 40px;
+    width: 40px;
+    position: relative;
+    background-color: #0d0d0d;
+    transition: background-color 0.3s ease;
+    
+    
+}
+
+.position:hover {
+    background-color: #FFFF33;
+    transition: 0.3s;
+}
+
+
+
+
+
+.columna-ID, .fila-ID {
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 10px #FFFF33, 0 0 20px #00ffff;
+    font-size: 1rem;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 40px;
+    width: 40px;
+}
+
+
+
+#main-nav a {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #00ffff;
+    margin: 0 10px;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.Player1 h1 {
+    font-family: "Iceland", sans-serif;
+    font-style: normal;
+    font-size: 2rem;
+    text-decoration: none;
+    color: #00ffff;
+    margin: 0 10px;
+    padding: 15px 0; 
+    transition: color 0.3s, text-shadow 0.3s;
+    
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    text-decoration: none;
+    color: #ff00ff;
+    margin: 0 10px;
+    padding: 15px 0; 
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+
+#main-nav a:hover {
+    color: #FFFF33;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+}
+
+
+.titulo-esp {
+    text-align: center;
+    margin: auto;
+    z-index: 1; 
+    font-family: 'Orbitron';
+    font-size: 2rem; 
+    color: #FFFF33; 
+    text-shadow: 0 0 5px #FFFF33, 0 0 10px #FFFF33, 0 0 20px #FFFF33; 
+    pointer-events: none; 
+}
+
+.contenedor-titulo-reglas {
+    position: relative;
+    display: inline-block; 
+}
+
+.titulo-esp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; 
+    z-index: 1; 
+}
+
+.titulo-extranjero {
+    position: relative; 
+    z-index: 0; 
+    text-align: center;
+}
+
+
+
+.titulo-extranjero {
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-size: 10rem;
+    text-decoration: none;
+    opacity: 0.2;
+    color: rgba(0, 255, 255, 0.2); 
+    margin: 0;
+    padding: 15px 50px;
+    transition: color 0.3s, text-shadow 0.3s;
+    animation: flicker 5s infinite;
+}
+
+#instrucciones-page{
+    position: relative;
+    background-image: 
+        linear-gradient(90deg, rgba(255, 0, 255, 0.5) 3px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 0, 255, 0.5) 3px, transparent 1px);
+    background-size: 50px 50px; 
+    background-color: black; 
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+
+.reglas-partes h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-style: italic;
+    font-size: 2rem;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+    position: relative;
+}
+
+.reglas-partes p {
+    font-family: 'Orbitron', sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin: 10px 0;
+    padding: 15px 20px;
+}
+
+
+.reglas-partes ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.reglas-partes ul  {
+    font-family: 'Orbitron', sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #ffffff;
+
+}
+
+.reglas-partes {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 20px #00ffff, 
+        0 0 30px #ff00ff, 
+        0 0 40px #ff00ff;
+    background: rgba(0, 0, 0, 0.8);
+    margin: 0 300px 300px 300px;
+    padding: 20px;
+    
+}
+
+.reglas-basicas-wrapper {
+    display: flex;
+    position: relative; 
+    align-items: flex-start;
+    justify-content: center;
+    gap: 300px;
+    padding: 70px;
+}
+
+.crucero{
+    background-image: url('../assets/crucero.png'); 
+    background-repeat: no-repeat;
+}
+
+.portaaviones {
+    background-image: url('../assets/portaaviones.png'); 
+    background-repeat: no-repeat;
+}
+
+.acorazado {
+  background-image: url('../assets/acorazado.png'); 
+  background-repeat: no-repeat;
+}
+
+.adelante {
+    background-size: cover;
+    background-position: left;
+}
+.medio-adelante {
+    background-size: cover;
+    background-position: 25% 0%;
+}
+.medio{
+    background-size: cover;
+    background-position: center;
+}
+.medio-atras{
+    background-size: cover;
+    background-position: 75% 0%;
+}
+.atras {
+    background-size: cover;
+    background-position: right;
+}
+
+.vertical {
+    rotate: 90deg;
+}
+
+.barcos {
+    margin-top:  30px;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px; width: 100%;
+    border: 3px solid transparent;
+    box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #ff00ff;  
+    border-radius: 15px;  
+
+}
+
+.progreso-mi-flota {
+    margin-top:  30px;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px; width: 100%;
+    border: 3px solid transparent;
+    box-shadow: 0 0 15px 5px #00ffff, 0 0 25px 10px #00ffff; 
+    border-radius: 15px;  
+    padding: 0 20px
+}
+
+.barcos p {
+    font-family: 'Orbitron', sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+/* .crucero, .portaaviones, .destructor, .submarino, .acorazado { 
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top:  20px;
+} */
+
+
+#tablero-estrategia{
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;  
+    gap: 50px; width: 100%;
+}
+
+.cambiar-direccion, .comenzar-juego, .limpiar-tablero{
+    width: 60px;
+    height: 60px;
+    border: 3px solid transparent;
+    box-shadow: 0 0 15px 5px #FFFF33;
+    border-radius: 15px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    background: none;
+}
+
+.cambiar-direccion:hover, .comenzar-juego:hover, .limpiar-tablero:hover { 
+    transform: scale(1.2);
+}
+
+.limpiar-tablero svg, .cambiar-direccion svg, .comenzar-juego svg {
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0 0 5px #FFFF33); 
+}
+
+
+.botones-estrategia {
+    gap: 60px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;        
+}
+
+
+.power-ups{
+    margin-top:  30px;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px; width: 100%;
+    border: 3px solid transparent;
+    box-shadow: 0 0 15px 5px #FFFF33, 0 0 25px 10px #FFFF33;    
+    padding: 20px;   
+    border-radius: 15px;
+}
+
+.btn-power-ups {
+    width: 60px;
+    height: 60px;
+    border: 3px solid transparent;
+    box-shadow: 0 0 15px 5px #FFFF33;
+    border-radius: 15px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    background: none;
+    transition: transform 0.3s, color 0.3s; 
+}
+
+.btn-power-ups:hover {
+    transform: scale(1.2); 
+    box-shadow: 0 0 15px 5px #FF33FF; 
+}
+
+.ataques h1 {
+    font-family: 'Orbitron', sans-serif;
+    color: #FFFF33;
+    text-shadow: 0 0 10px #FFFF33, 0 0 20px #ff00ff;
+    font-size: 1.5rem;
+}
+
+.ataques{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;       
+}
+
+
+.acorazado img, .submarino img, .destructor img, .portaaviones img {
+    position: relative; 
+    filter: drop-shadow(0 0 5px magenta) drop-shadow(0 0 10px magenta);
+    border-radius: 5px;   
+}
+
+.crucero img {
+    position: relative; 
+    filter: grayscale(100%) brightness(0) invert(0) drop-shadow(0 0 5px magenta) drop-shadow(0 0 10px magenta); 
+    border-radius: 5px;   
+}
+
+.mi-flota img{
+    position: relative; 
+    filter: grayscale(100%) brightness(0) invert(0) drop-shadow(0 0 5px #00ffff) drop-shadow(0 0 10px #00ffff); 
+    border-radius: 5px;       
+}
+
+.progreso-mi-flota #barcos{
+    box-shadow: 0 0 15px 5px #00ffff, 0 0 25px 10px #00ffff;    
+}
+
+
+#juego-opciones{
+    position: relative;
+    background-image: url('../assets/xK.gif');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; 
+}
+
+
+#juego-opciones::before{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080; 
+    z-index: 1; 
+}
+
+
+#game-mode {
+    text-align: center; 
+    margin-top: 20px;
+}
+
+#game-mode h2 {
+    margin-top: 30px;
+    font-size: 3rem; 
+}
+
+.button-container {
+    display: flex; 
+    justify-content: center; 
+    margin-top: 15px; 
+}
+
+
+.missed {
+    background-color: white;
+}
+
+.hit {
+    background-color: red;
+}
+
+.sunk {
+    background-color: purple;
+}
