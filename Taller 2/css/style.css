@@ -254,17 +254,6 @@ body h2{
     transition: color 0.3s, text-shadow 0.3s;
 }
 
-.Player1 h1 {
-    font-family: "Iceland", sans-serif;
-    font-style: normal;
-    font-size: 2rem;
-    text-decoration: none;
-    color: #00ffff;
-    margin: 0 10px;
-    padding: 15px 0; 
-    transition: color 0.3s, text-shadow 0.3s;
-    
-}
 
 h1 {
     font-family: 'Orbitron', sans-serif;
@@ -274,6 +263,10 @@ h1 {
     margin: 0 10px;
     padding: 15px 0; 
     transition: color 0.3s, text-shadow 0.3s;
+}
+
+.Player1 h1 {
+    color: #00ffff;
 }
 
 
