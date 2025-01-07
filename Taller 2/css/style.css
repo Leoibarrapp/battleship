@@ -223,7 +223,7 @@ body h2{
     
 }
 
-.position:hover {
+.position:hover, .highlight {
     background-color: #FFFF33;
     transition: 0.3s;
 }
@@ -560,8 +560,9 @@ h1 {
 }
 
 
-.acorazado img, .submarino img, .destructor img, .portaaviones img {
-    position: relative; 
+.acorazado-selector img, .submarino-selector img, .destructor-selector img, .portaaviones-selector img, .crucero-selector img {
+    margin-top: 20px;
+    position: relative;
     filter: drop-shadow(0 0 5px magenta) drop-shadow(0 0 10px magenta);
     border-radius: 5px;   
 }
