@@ -1,4 +1,9 @@
-import { WebSocketServer } from "ws";
+import WebSocket from 'ws';
+/**
+ * Este es un servidor de juego multijugador simple que utiliza WebSockets para la comunicación en tiempo real.
+ * El servidor admite la creación de juegos, la unión a juegos existentes, el inicio de juegos, los movimientos de los
+ * jugadores, el abandono de juegos y la gestión de errores.
+ */
 
 /**
  * Registro de juegos activos.
@@ -23,23 +28,35 @@ function generateGameId() {
  * @param {Object} message - El mensaje recibido.
  */
 function handleMessage(socket, message) {
+    // Básicamente, se intercambia un "único mensaje" que contiene un "tipo" y una carga útil adicional. Dependiendo del
+    // tipo de mensaje, se realiza una acción específica. Por eso usamos un "switch":
     switch (message.type) {
         case 'create':
+            // Si el mensaje es de tipo "create", se maneja la creación de un nuevo juego. Solo se necesita la conexión
+            // WebSocket del jugador para crear un nuevo juego.
             handleCreateGame(socket);
             break;
         case 'join':
+            // Para manejar la unión a un juego existente, se necesita la conexión WebSocket del jugador y el ID del
+            // juego al cual el jugador se desea unir.
             handleJoinGame(socket, message.gameId);
             break;
         case 'start':
+            // Para manejar el inicio de un juego, se necesita la conexión WebSocket del jugador y el ID del juego a
+            // iniciar.
             handleStartGame(socket, message.gameId);
             break;
         case 'move':
+            // Para manejar los movimientos de los jugadores, se necesita la conexión WebSocket del jugador, el ID del
+            // juego y el movimiento del jugador. El movimiento se reenvía a todos los jugadores en el juego.
             handleMove(socket, message.gameId, message.move);
             break;
         case 'leave':
+            // Para manejar el abandono de un juego, se necesita la conexión WebSocket del jugador y el ID del juego.
             handleLeaveGame(socket, message.gameId);
             break;
         default:
+            // Si el tipo de mensaje no es reconocido, se envía un mensaje de error al jugador.
             sendMessage(socket, { type: 'error', message: 'Unknown message type' });
     }
 }
@@ -62,8 +79,11 @@ function sendMessage(socket, message) {
  * @param {WebSocket} socket - La conexión WebSocket del jugador.
  */
 function handleCreateGame(socket) {
+    // Se genera un ID de juego único y se crea un nuevo juego con el jugador como único participante.
     const gameId = generateGameId();
     games[gameId] = { id: gameId, players: [socket], started: false, turn: 0 };
+
+    // Se envía un mensaje de confirmación al jugador.
     sendMessage(socket, { type: 'gameCreated', gameId });
 }
 
@@ -158,19 +178,28 @@ function handleMove(socket, gameId, move) {
  * @param {string} gameId - El ID del juego.
  */
 function handleLeaveGame(socket, gameId) {
-    const game = games[gameId];
-    if (!game) {
-        sendMessage(socket, { type: 'error', message: 'Game not found' });
+    if (!gameId) {
+        sendMessage(socket, { type: 'error', message: 'No game ID specified' });
         return;
     }
+
+    const game = games[gameId];
+
+    if (!game) {
+        sendMessage(socket, { type: 'error', message: `No game found with ID "${gameId}"` });
+        return;
+    }
+
     game.players = game.players.filter((player) => player !== socket);
+
     if (game.players.length === 0) {
         delete games[gameId];
     } else {
-        game.players.forEach((player) => {
-            sendMessage(player, { type: 'playerLeft', gameId, playerCount: game.players.length });
-        });
+        game.players.forEach((player) =>
+            sendMessage(player, { type: 'playerLeft', gameId, playerCount: game.players.length }),
+        );
     }
+
     sendMessage(socket, { type: 'leftGame', gameId });
 }
 
@@ -190,15 +219,25 @@ function handleDisconnect(socket) {
 }
 
 // Inicia el servidor WebSocket
-const wss = new WebSocketServer({ port: 8080 });
+Deno.serve({ hostname: '127.0.0.1', port: 8080 }, (req) => {
+    if (req.headers.get('upgrade') != 'websocket') {
+        return new Response(null, { status: 501 });
+    }
 
-wss.on("connection", (socket) => {
-    console.log('A client connected!');
-    socket.on('message', (data) => {
-        const message = JSON.parse(data);
+    const { socket, response } = Deno.upgradeWebSocket(req);
+
+    socket.addEventListener('open', () => {
+        console.log('A client connected!');
+    });
+
+    socket.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
         handleMessage(socket, message);
     });
-    socket.on('close', () => {
+
+    socket.addEventListener('close', () => {
         handleDisconnect(socket);
     });
+
+    return response;
 });

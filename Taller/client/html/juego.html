@@ -28,7 +28,7 @@
               </nav>
           </header>
           <section id="game-mode">
-                  <h2>Modo de juego</h2>
+                  <!-- <h2>Modo de juego</h2>
                   <br>
                   <div class="button-container">
                     <button class="game-button" onclick="location.href='selector-estrategia.html'">seleccionar estrategia</button>
@@ -47,6 +47,20 @@
                   <br>
                   <div class="button-container">
                     <button class="game-button" onclick="location.href='1v3.html'">4 Players</button>
+                  </div> -->
+
+                  <div>
+                    <button id="create-game" class="server-operation">Crear un nuevo juego</button>
+                    <button id="join-game" class="server-operation">Unirse a un juego existente</button>
+                    <button id="start-game" class="server-operation">¡Iniciar la partida!</button>
+                    <button id="send-move" class="server-operation">Enviar el movimiento</button>
+                    <button id="leave-game" class="server-operation">¡Abandonar la partida!</button>
+                    <button id="close-connection" class="client-operation">Cerrar la conexión con el servidor</button>
+                  </div>
+
+                  <div>
+                    <input type="text" id="game-id" class="server-operation" placeholder="ID del juego">
+                    <input type="text" id="move" class="server-operation" placeholder="Movimiento (p. ej. A1)">
                   </div>
           </section>
       </div>

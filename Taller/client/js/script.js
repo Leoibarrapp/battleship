@@ -2,6 +2,10 @@
 function crearTabla(i) {
     const board = document.getElementById(`battleship-board-p${i}`);
 
+    if(!board) {
+        return;
+    }
+
     // Crear encabezado de columnas
     const columnas = [''].concat(Array.from({ length: 10 }, (_, i) => i + 1));
     columnas.forEach(num => {
@@ -32,7 +36,6 @@ function crearTabla(i) {
 function crearTablas(cant) {
     for (let i = 1; i <= cant; i++) {
         crearTabla(i);
-        console.log(1);
     }
 }
 
@@ -71,25 +74,47 @@ function checkIfSink() {
     }
 }
 
-function arrastrar(event) {
-    event.dataTransfer.setData("text", event.target.id);
-}
+window.addEventListener("DOMContentLoaded", (event)=>{
+    const WEBSOCKET_SCHEME = 'ws';
+    const WEBSOCKET_SERVER = '127.0.0.1';
+    const WEBSOCKET_PORT = 8080;
+    const WEBSOCKET_URL = `${WEBSOCKET_SCHEME}://${WEBSOCKET_SERVER}:${WEBSOCKET_PORT}`;
+    const socket = new WebSocket(WEBSOCKET_URL); 
 
-function permitirSoltar(event) {
-    event.preventDefault();
-}
+    socket.addEventListener('open', () => {
+        // Nótese que es posible usar estilos CSS en la consola del navegador:
+        console.log(`Conectado al servidor en ${WEBSOCKET_URL}`,  'color: #99ff00');
+    });
 
-function soltar(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    var elementoArrastrado = document.getElementById(data);
-    var casillaDestino = event.target.id; // Obtener el ID de la casilla de destino
+    document.getElementById("create-game").addEventListener('click', () => {
+        socket.send(JSON.stringify({ type: 'create' }));
+    });
 
-    // Aquí puedes añadir lógica para asegurar que el elemento ocupa 5 celdas
-    console.log(`Imagen soltada en la casilla: ${casillaDestino}`); // Mostrar el ID de la casilla en la consola
-    event.target.appendChild(elementoArrastrado);
-}
+    document.getElementById('join-game').addEventListener('click', () => {
+        const gameId = document.getElementById('game-id').value;
+        socket.send(JSON.stringify({ type: 'join', gameId }));
+    });
 
-function finArrastrar(event) {
-    event.dataTransfer.clearData();
-}
+    document.getElementById('start-game').addEventListener('click', () => {
+        const gameId = document.getElementById('game-id').value;
+        socket.send(JSON.stringify({ type: 'start', gameId: gameId }));
+    });
+
+    document.getElementById('send-move').addEventListener('click', () => {
+        const gameId = document.getElementById('game-id').value;
+        const move = document.getElementById('move').value;
+        socket.send(JSON.stringify({ type: 'move', gameId, move }));
+    });
+
+    document.getElementById('leave-game').addEventListener('click', () => {
+        const gameId = document.getElementById('game-id').value;
+        socket.send(JSON.stringify({ type: 'leave', gameId }));
+    });
+
+    document.getElementById('close-connection').addEventListener('click', () => {
+        const response = confirm('¿Estás seguro de que deseas cerrar la conexión con el servidor de WebSocket?\n\nSi la cierras, no podrás enviar ni recibir más mensajes y, de acuerdo a esta implementación, tendrás que recargar la página.');
+        if (response) {
+            socket.close();
+        }cls
+    });
+})
