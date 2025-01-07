@@ -32,6 +32,7 @@ function crearTabla(i) {
 function crearTablas(cant) {
     for (let i = 1; i <= cant; i++) {
         crearTabla(i);
+        console.log(1);
     }
 }
 
