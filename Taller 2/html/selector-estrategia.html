@@ -38,38 +38,32 @@
                 <div class="battleship-board-p1" id="battleship-board-p1"></div>
             </div>
 
-            <script src="../script.js"></script>
+            <script src="../js/estrategia.js"></script>
      
         
-           <div class="barcos">  
-            
-            <div class="portaaviones-select" draggable="true" ondragstart="arrastrar(event)" ondragend="finArrastrar(event)">
-                <img src="../assets/portaaviones.png" style="width: 220px; height: 44px;">
-                <p>Portaaviones</p>
+            <div class="barcos">  
+                <div class="portaaviones"  ondragstart="arrastrar(event)" id="portaaviones">
+                    <img src="../assets/portaaviones.png"  draggable="true" style="width: 220px; height: 44px;" id="img-portaaviones">
+                    <p>Portaaviones</p>
+                </div>    
+                <div class="acorazado" ondragstart="arrastrar(event)" id="acorazado">
+                    <img src="../assets/acorazado.png"  draggable="true" style="width: 176px; height: 44px;" id="img-acorazado">
+                    <p>Acorazado</p>
+                </div> 
+                <div class="crucero"  ondragstart="arrastrar(event)" id="crucero">
+                    <img src="../assets/crucero.png"  draggable="true" style="width: 132px; height: 44px;" id="img-crucero">
+                    <p>Crucero</p>
+                </div> 
+                <div class="submarino" ondragstart="arrastrar(event)" id="submarino">
+                    <img src="../assets/submarino.png"  draggable="true" style="width: 132px; height: 44px;" id="img-submarino">
+                    <p>Submarino</p>
+                </div> 
+                <div class="destructor" ondragstart="arrastrar(event)" id="destructor">
+                    <img src="../assets/destructor.png"  draggable="true" style="width: 88px; height: 44px;" id="img-destructor">
+                    <p>Destructor</p>
+                </div> 
             </div>
             
-
-            <div class="acorazado"  draggable="true">
-            <img src="../assets/acorazado.png" style="width: 176px; height: 44px;">
-            <p>Acotazado</p>
-            </div> 
-
-            <div class="crucero"  draggable="true">
-            <img src="../assets/crucero.png" style="width: 132px; height: 44px;">
-            <p>Crucero</p>
-            </div> 
-
-            <div class="submarino"  draggable="true">
-            <img src="../assets/submarino.png" style="width: 132px; height: 44px;">
-            <p>Submarino</p>
-            </div> 
-
-            <div class="destructor"  draggable="true">
-            <img src="../assets/destructor.png" style="width: 88px; height: 44px;">
-            <p>Destructor</p>
-            </div> 
-
-           </div>
 
         </div>  
     </div>
@@ -78,6 +72,4 @@
             <p>Creado por Alejandro Cifuentes</p>
         </center>
     </footer>
-    <script src="../script.js"></script>
-
 </body>
