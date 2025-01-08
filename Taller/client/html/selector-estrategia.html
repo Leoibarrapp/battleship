@@ -79,21 +79,7 @@
                 </div> 
             </div>
             
-            <script src="../js/estrategia.js">
-                import { saveBoard, clearBoard } from '../js/estrategia.js';
-                document.querySelector('.comenzar-juego').addEventListener('click', function() {
-                    function saveBoard(boardId) {
-                        const board = document.getElementById(boardId);
-                        if (board) {
-                            const boardState = board.innerHTML;
-                            localStorage.setItem(`savedBoard-${generatedPlayerId}`, boardState);
-                            console.log('Board saved:', `savedBoard-${generatedPlayerId}`, boardState);
-                        } else {
-                            console.error('Board not found:', boardId);
-                        }
-                    }
-                });
-            </script>
+            <script src="../js/estrategia.js"></script>
 
         </div>  
     </div>

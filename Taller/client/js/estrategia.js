@@ -143,8 +143,8 @@ function saveBoard(boardId) {
     board.querySelectorAll('.highlight').forEach(cell => cell.classList.remove('highlight'));
     if (board) {
         const boardState = board.innerHTML;
-        // localStorage.setItem(`savedBoard-${generatedPlayerId}`, boardState);
-        localStorage.setItem(`savedBoard`, boardState);
+        localStorage.setItem(`savedBoard-${generatedPlayerId}`, boardState);
+        // localStorage.setItem(`savedBoard`, boardState);
     } else {
         console.error('Board not found:', boardId);
     }
