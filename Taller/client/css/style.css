@@ -407,6 +407,16 @@ h1 {
   background-repeat: no-repeat;
 }
 
+.submarino {
+  background-image: url('../assets/submarino.png'); 
+  background-repeat: no-repeat;
+}
+
+.destructor {
+  background-image: url('../assets/destructor.png'); 
+  background-repeat: no-repeat;
+}
+
 .adelante {
     background-size: cover;
     background-position: left;
@@ -431,6 +441,7 @@ h1 {
 .vertical {
     rotate: 90deg;
 }
+
 
 .barcos {
     margin-top:  30px;
@@ -560,7 +571,7 @@ h1 {
 }
 
 
-.acorazado-selector img, .submarino-selector img, .destructor-selector img, .portaaviones-selector img, .crucero-selector img {
+.selector img {
     margin-top: 20px;
     position: relative;
     filter: drop-shadow(0 0 5px magenta) drop-shadow(0 0 10px magenta);

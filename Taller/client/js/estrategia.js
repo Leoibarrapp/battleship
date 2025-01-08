@@ -1,3 +1,23 @@
+const socket = new WebSocket('ws://127.0.0.1:8080');
+
+let generatedPlayerId;
+
+// socket.addEventListener('open', () => {
+//     socket.send(JSON.stringify({ type: 'getPlayerId', }));
+//     console.log('Requesting Player ID...');
+// });
+
+// socket.addEventListener('message', event => {
+//     const message = JSON.parse(event.data);
+//     if (message.type === 'generatedPlayerId') {
+//         generatedPlayerId = message.playerId;
+//         console.log('Player ID generated:', generatedPlayerId);
+//     }
+//      else { 
+//         console.error('Received unknown message type:', message.type); 
+//     }
+// });
+
 function crearTabla(i) {
     const board = document.getElementById(`battleship-board-p${i}`);
     board.innerHTML = '';  // Limpiar cualquier contenido anterior
@@ -31,6 +51,8 @@ function crearTabla(i) {
     });
 }
 
+crearTabla(1);
+
 function highlight(event) { 
     event.preventDefault(); 
     event.target.classList.add('highlight'); 
@@ -43,10 +65,9 @@ function removeHighlight(event) {
 function arrastrar(event) {
     // Usar event.target.id para obtener el ID de la imagen arrastrada
     event.dataTransfer.setData("barcoId", event.target.id);
-    obtenerIdCasillaAdyacente(event.target.id).classList.add('highlight');
+    //obtenerIdCasillaAdyacente(event.target.id).classList.add('highlight');
     console.log(`Iniciando arrastre del barco con ID: ${event.target.id}`);
 }
-
 
 function obtenerTamañoBarco(barcoId) {
     switch(barcoId) {
@@ -78,23 +99,29 @@ function soltar(event) {
 }
 
 function colocarBarco(casilla, barcoId) {
-     var imagenBarco; switch(barcoId) { 
-        case 'img-portaaviones': imagenBarco = 'url("../assets/portaaviones.png")'; 
+     var className; 
+     switch(barcoId) { 
+        case 'img-portaaviones': 
+            className = 'portaaviones adelante';
             break; 
-        case 'img-acorazado': imagenBarco = 'url("../assets/acorazado.png")'; 
+        case 'img-acorazado': 
+            className = 'acorazado adelante';
             break; 
-        case 'img-crucero': imagenBarco = 'url("../assets/crucero.png")'; 
+        case 'img-crucero': 
+            className = 'crucero adelante';
             break; 
-        case 'img-submarino': imagenBarco = 'url("../assets/submarino.png")'; 
+        case 'img-submarino': 
+            className = 'submarino adelante';
             break; 
-        case 'img-destructor': imagenBarco = 'url("../assets/destructor.png")'; 
+        case 'img-destructor':
+            className = 'destructor adelante';
         break; 
-            default: imagenBarco = ''; 
+            default: className = 'position'; 
     } 
+
     let casillaActual = document.getElementById(casilla); 
     if (casillaActual) { 
-        casillaActual.style.backgroundImage = imagenBarco; 
-        casillaActual.style.backgroundSize = "cover"; // Ajustar la imagen para cubrir la casilla 
+        casillaActual.className = casillaActual.className + ' ' + className; 
     } 
 }
 
@@ -103,7 +130,7 @@ function colocarBarco(casilla, barcoId) {
 //     let numero = parseInt(casilla.slice(2));
 //     let nuevoNumero = numero + offset;
 
-//     if (nuevoNumero > 10) return null;  // Verificar que no se salga del tablero
+//     if (nuevoNumero > 10) return null;  // Verificar que no se salga del tabero
 
 //     return `p${casilla.charAt(0)}-${letra}${nuevoNumero}`;
 // }
@@ -111,6 +138,20 @@ function colocarBarco(casilla, barcoId) {
 function obtenerCasillasAdyacentes(casilla) {
 }
 
-// Llamar a la función para crear la tabla
-crearTabla(1);
+function saveBoard(boardId) {
+    const board = document.getElementById(boardId);
+    board.querySelectorAll('.highlight').forEach(cell => cell.classList.remove('highlight'));
+    if (board) {
+        const boardState = board.innerHTML;
+        // localStorage.setItem(`savedBoard-${generatedPlayerId}`, boardState);
+        localStorage.setItem(`savedBoard`, boardState);
+    } else {
+        console.error('Board not found:', boardId);
+    }
+}
 
+function clearBoard(boardID){
+    const board = document.getElementById(boardID); 
+    const cells = board.querySelectorAll('.position'); // Limpiar el contenido de cada celda 
+    cells.forEach(cell => cell.className = 'position');
+}
