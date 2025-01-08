@@ -214,8 +214,8 @@ body h2{
 
 .position {
     border: 0.5px solid #ff00ff; 
-    height: 40px;
-    width: 40px;
+    height: 44px;
+    width: 44px;
     position: relative;
     background-color: #0d0d0d;
     transition: background-color 0.3s ease;
@@ -402,6 +402,17 @@ h1 {
     background-repeat: no-repeat;
 }
 
+#img-portaaviones{
+    background-image: url('../assets/portaaviones.png'); 
+    background-repeat: no-repeat;
+    width: 220px;
+    height: 44px;
+    display: grid;
+    grid-template-columns: repeat(5, 44px);
+    grid-template-rows: 44px;
+    position: fixed;
+}
+
 .acorazado {
   background-image: url('../assets/acorazado.png'); 
   background-repeat: no-repeat;
@@ -428,9 +439,7 @@ h1 {
     background-position: right;
 }
 
-.vertical {
-    rotate: 90deg;
-}
+
 
 .barcos {
     margin-top:  30px;
@@ -603,6 +612,40 @@ h1 {
     z-index: 1; 
 }
 
+#juego-select{
+    position: relative;
+    background-image: url('../assets/xK.gif');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; 
+    
+}
+
+#juego-select::before{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080; 
+    z-index: 1; 
+}
+
+.game-ops-wrapper {
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    height: 60%;  
+}
+
+.game-ops {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;  /* Ajusta el espacio entre los botones si es necesario */
+}
+
 
 #game-mode {
     text-align: center; 
@@ -637,3 +680,111 @@ h1 {
 .sunk {
     background-color: purple;
 }
+
+
+.barcos {
+    margin-top:  30px;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px; width: 100%;
+    border: 3px solid transparent;
+    box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #ff00ff;  
+    border-radius: 15px;  
+
+}
+
+.card{
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 5px;
+}
+
+#card-portaaviones {
+    width: 220px;
+    height: 44px;
+}
+
+#card-acorazado {
+    width: 176px;
+    height: 44px;
+}
+
+#card-crucero {
+    width: 132px;
+    height: 44px;
+}
+
+
+
+#card-destructor {
+    width: 88px;
+    height: 44px;
+}
+
+#card-submarino {
+    width: 132px;
+    height: 44px;
+}
+
+
+#cards-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    
+}
+
+.card-wrapper {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-wrapper p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: #FFFF33;
+    text-shadow: 0 0 5px #FFFF33, 0 0 10px #FFFF33, 0 0 20px #FFFF33;
+    margin: 10px 0;
+}
+
+.estrategia-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 100px; 
+}
+
+.vertical {
+    transform: rotate(90deg);
+    transform-origin: top left;
+}
+
+
+
+.card-wrapper {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    margin: 10px;
+}
+
+
+.card-wrapper p {
+    margin-top: 75px; /* Espacio entre la imagen y el texto */
+    text-align: center; /* Centrar el texto */
+    font-size: 14px; /* Ajustar el tamaño del texto según sea necesario */
+}
+
+

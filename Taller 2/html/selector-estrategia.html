@@ -11,6 +11,8 @@
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3117/3117957.png">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Iceland&family=Kiwi+Maru&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
         <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/cyber.css">
 </head>
@@ -23,45 +25,68 @@
                 <center>
                     &nbsp;<a href="index.html" class="opciones glitched">Inicio</a> &nbsp;| 
                     &nbsp;<a href="instrucciones.html" class="opciones glitched">Instrucciones</a> &nbsp;| 
-                    &nbsp;<a href="juego.html" class="opciones glitched">Jugar</a>&nbsp;| 
+                    &nbsp;<a href="seleccion.html" class="opciones glitched">Jugar</a>&nbsp;| 
                 </center>
                 
             </nav>
         </header>
+
+      
+
     <div class="tableros-wrapper">
         <div class="tableros">
             <div id="titulo-estrategia">
                 <h1>Plan de estrategia</h1>
             </div>
-            <div class="Player1" id="tablero-estrategia">
-                <center><h1>Tu Flota</h1></center>
-                <div class="battleship-board-p1" id="battleship-board-p1"></div>
+            <div class="estrategia-container">
+                <div class="Player1" id="tablero-estrategia">
+                    <div class="battleship-board-p1" id="battleship-board-p1"></div>
+                </div>
+    
+                <div class="botones-estrategia">
+                    <button class="cambiar-direccion">
+                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                         <path stroke="#ffff33" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
+                       </svg>
+                    </button>
+                    <button class="comenzar-juego">
+                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffff33" viewBox="0 0 24 24">
+                         <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
+                       </svg>      
+                    </button>
+                    <button class="limpiar-tablero">
+                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0,0,256,256">
+                         <g fill="#ffff33" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M10,2l-1,1h-4c-0.6,0 -1,0.4 -1,1c0,0.6 0.4,1 1,1h2h10h2c0.6,0 1,-0.4 1,-1c0,-0.6 -0.4,-1 -1,-1h-4l-1,-1zM5,7v13c0,1.1 0.9,2 2,2h10c1.1,0 2,-0.9 2,-2v-13zM9,9c0.6,0 1,0.4 1,1v9c0,0.6 -0.4,1 -1,1c-0.6,0 -1,-0.4 -1,-1v-9c0,-0.6 0.4,-1 1,-1zM15,9c0.6,0 1,0.4 1,1v9c0,0.6 -0.4,1 -1,1c-0.6,0 -1,-0.4 -1,-1v-9c0,-0.6 0.4,-1 1,-1z"></path></g></g>
+                         </svg>
+                    </button>
+                 </div>
             </div>
+           
+        <div id="cards-container" class="cards-container">
+            <div id="portaaviones" class="card-wrapper">
+                <img src="../assets/portaaviones.png" draggable="true" id="card-portaaviones" class="card">
+                <p>Portaaviones</p>
+            </div>
+            <div id="acorazado" class="card-wrapper">
+                <img src="../assets/acorazado.png" draggable="true" id="card-acorazado" class="card">
+                <p>Acorazado</p>
+            </div>
+            <div id="submarino" class="card-wrapper">
+                <img src="../assets/submarino.png" draggable="true" id="card-submarino" class="card">
+                <p>Submarino</p>
+            </div>
+            <div id="crucero" class="card-wrapper">
+                <img src="../assets/crucero.png" draggable="true" id="card-crucero" class="card">
+                <p>Crucero</p>
+            </div>
+            <div id="destructor" class="card-wrapper">
+                <img src="../assets/destructor.png" draggable="true" id="card-destructor" class="card">
+                <p>Destructor</p>
+            </div>
+        </div>
 
             <script src="../js/estrategia.js"></script>
-     
-        
-            <div class="barcos">  
-                <div class="portaaviones"  ondragstart="arrastrar(event)" id="portaaviones">
-                    <img src="../assets/portaaviones.png"  draggable="true" style="width: 220px; height: 44px;" id="img-portaaviones">
-                    <p>Portaaviones</p>
-                </div>    
-                <div class="acorazado" ondragstart="arrastrar(event)" id="acorazado">
-                    <img src="../assets/acorazado.png"  draggable="true" style="width: 176px; height: 44px;" id="img-acorazado">
-                    <p>Acorazado</p>
-                </div> 
-                <div class="crucero"  ondragstart="arrastrar(event)" id="crucero">
-                    <img src="../assets/crucero.png"  draggable="true" style="width: 132px; height: 44px;" id="img-crucero">
-                    <p>Crucero</p>
-                </div> 
-                <div class="submarino" ondragstart="arrastrar(event)" id="submarino">
-                    <img src="../assets/submarino.png"  draggable="true" style="width: 132px; height: 44px;" id="img-submarino">
-                    <p>Submarino</p>
-                </div> 
-                <div class="destructor" ondragstart="arrastrar(event)" id="destructor">
-                    <img src="../assets/destructor.png"  draggable="true" style="width: 88px; height: 44px;" id="img-destructor">
-                    <p>Destructor</p>
-                </div> 
+ç
             </div>
             
 

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/cyber.css">
 </head>
-<body id="juego-opciones">
+<body id="juego-select">
     <div class="main-container wrapper" >
         <header>
             <center><h1>BATALLA NAVAL</h1></center>
@@ -27,24 +27,19 @@
                 
             </nav>
         </header>
-        <section id="game-mode">
-                <h2>Modo de juego</h2>
-                <br>
-                <div class="button-container">
-                  <button class="game-button" onclick="location.href='selector-estrategia.html'">seleccionar estrategia</button>
-                </div>
-                <div class="button-container">
-                  <button class="game-button" onclick="location.href='1v1.html'">2 Players</button>
-                </div>
-                <br>
-                <div class="button-container">
-                  <button class="game-button" onclick="location.href='1v2.html'">3 Players</button>
-                </div>
-                <br>
-                <div class="button-container">
-                  <button class="game-button" onclick="location.href='1v3.html'">4 Players</button>
-                </div>
-        </section>
+        <div class="game-ops-wrapper">
+          <div class="game-ops">
+            <br>
+
+            <div class="button-container">
+              <button class="game-button" onclick="location.href='juego.html'">Crear partida</button>
+            </div>
+            <div class="button-container">
+              <button class="game-button" onclick="location.href='1v1.html'">Unirte a un juego</button>
+            </div>
+          </div>  
+        </div>
+       
     </div>
 <script src="../js/script.js"></script>    
 </body>
