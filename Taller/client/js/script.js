@@ -1,33 +1,43 @@
 const socket = new WebSocket('ws://127.0.0.1:8080');
 
-let playerId;
-let currentGameId;
-
 socket.addEventListener( 'open', () => {
     console.log(`Conectado al servidor`);
 });
+
+let currentPlayerId = sessionStorage.getItem('playerId') || null;
+let currentGameId = localStorage.getItem('currentGameId') || null;
 
 socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
 
     if(message.type === 'generatedPlayerId') {
-        playerId = message.playerId;
+        currentPlayerId = message.playerId;
 
     } else if (message.type === 'gameCreated') {
         currentGameId = message.gameId;
         document.getElementById("game-id").value = currentGameId;
 
         socket.send(JSON.stringify({ type: 'getPlayerId', gameId: currentGameId }));
+        document.getElementById("message").textContent = 'Unido a juego: ' + currentGameId;
 
     } else if (message.type === 'playerJoined') {
         currentGameId = message.gameId;
         socket.send(JSON.stringify({ type: 'getPlayerId', gameId: currentGameId }));
+        document.getElementById("message").textContent = 'Unido a juego: ' + currentGameId;
 
     } else if (message.type === 'gameStarted') {
-        sendBoardToServer(currentGameId, playerId);
-        // location.href = "1v1.html"; // Cambiar a la interfaz del juego
+        location.href = "1v1.html"; // Cambiar a la interfaz del juego
         // loadBoards(playerId);
+    } else if(message.type === 'leftGame') {
+        document.getElementById("message").textContent = 'Juego abandonado: ' + currentGameId;
+        
+        currentGameId = null;
+        document.getElementById("game-id").value = currentGameId;
+        
     }
+
+    localStorage.setItem('currentGameId', currentGameId);
+    sessionStorage.setItem('currentPlayerId', currentPlayerId);
 });
 
 if(document.getElementById("create-game") !== null){
@@ -67,97 +77,283 @@ if(document.getElementById("create-game") !== null){
     });
 }
 
-function sendBoardToServer(gameId, playerId) {
-    const boardKey = `savedBoard-${playerId}`;
-    const boardState = localStorage.getItem(boardKey);
+
+let newX = 0, newY = 0, startX = 0, startY = 0;
+let initialX = 0, initialY = 0;  // Variables para almacenar la posición inicial
+
+const cards = document.querySelectorAll('.card');
+const board = document.getElementById('battleship-board-p1');
+
+cards.forEach(card => {
+    card.addEventListener('mousedown', (e) => mouseDown(e, card));
+});
+
+function mouseDown(e, card) {
+    e.preventDefault();
+    startX = e.clientX;
+    startY = e.clientY;
+
+    // Guardar la posición inicial
+    initialX = card.offsetLeft;
+    initialY = card.offsetTop;
+
+    const mouseMoveHandler = (e) => mouseMove(e, card);
+    const mouseUpHandler = () => mouseUp(card, mouseMoveHandler, mouseUpHandler);
+
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+}
+
+function mouseMove(e, card) {
+    newX = startX - e.clientX;
+    newY = startY - e.clientY;
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    card.style.top = (card.offsetTop - newY) + 'px';
+    card.style.left = (card.offsetLeft - newX) + 'px';
+}
+
+function mouseUp(card, mouseMoveHandler, mouseUpHandler) {
+    if (isWithinBoard(card) && !isOverlapping(card)) {
+        alignToGrid(card);
+        card.style.display = 'none';
+    } else {
+        // Volver a la posición inicial si está fuera de los límites o se superpone
+        card.style.top = initialY + 'px';
+        card.style.left = initialX + 'px';
+    }
+
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+}
+
+function isWithinBoard(card) {
+    const cardRect = card.getBoundingClientRect();
+    const boardRect = board.getBoundingClientRect();
+
+    // Calculate the valid area excluding the first row and first column
+    const validTop = boardRect.top + 44; // Exclude the first row
+    const validLeft = boardRect.left + 44; // Exclude the first column
+    const validBottom = boardRect.bottom;
+    const validRight = boardRect.right;
+
+    return (
+        cardRect.top >= validTop &&
+        cardRect.left >= validLeft &&
+        cardRect.bottom <= validBottom &&
+        cardRect.right <= validRight
+    );
+}
+
+function isOverlapping(card) {
+    const cardRect = card.getBoundingClientRect();
+    const cells = document.querySelectorAll('.position');
+    for (let cell of cells) {
+        const cellRect = cell.getBoundingClientRect();
+        if (
+            cardRect.left < cellRect.right &&
+            cardRect.right > cellRect.left &&
+            cardRect.top < cellRect.bottom &&
+            cardRect.bottom > cellRect.top &&
+            cell.style.backgroundImage
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function alignToGrid(card) {
+    const cardRect = card.getBoundingClientRect();
+    const boardRect = board.getBoundingClientRect();
+
+    // Calcular la posición dentro del grid
+    const cellSize = 44;  // Tamaño de cada celda en px
+    const offsetX = cardRect.left - boardRect.left;
+    const offsetY = cardRect.top - boardRect.top;
+    const gridX = Math.round(offsetX / cellSize) * cellSize;
+    const gridY = Math.round(offsetY / cellSize) * cellSize;
+
+    // Ajustar la posición del card
+    card.style.top = `${gridY}px`;
+    card.style.left = `${gridX}px`;
+
+    // Cambiar el fondo de las casillas correspondientes
+    highlightCells(card, gridX / cellSize, gridY / cellSize);
+}
+
+function highlightCells(card, x, y) {
+    const cellSize = 44;  // Tamaño de cada celda en px
+    let imageUrl;
+    let size;
+    let shipClass;
+    switch(card.id) {
+        case 'card-portaaviones':
+            imageUrl = '../assets/portaaviones.png';
+            size = 5;
+            shipClass = 'portaaviones';
+            break;
+        case 'card-acorazado':
+            imageUrl = '../assets/acorazado.png';
+            size = 4;
+            shipClass = 'acorazado';
+            break;
+        case 'card-submarino':
+            imageUrl = '../assets/submarino.png';
+            size = 3;
+            shipClass = 'submarino';
+            break;
+        case 'card-crucero':
+            imageUrl = '../assets/crucero.png';
+            size = 3;
+            shipClass = 'crucero';
+            break;
+        case 'card-destructor':
+            imageUrl = '../assets/destructor.png';
+            size = 2;
+            shipClass = 'destructor';
+            break;
+        default:
+            imageUrl = '';
+            size = 1;
+            shipClass = '';
+    }
+
+    for (let i = 0; i < size; i++) {
+        const cellId = card.classList.contains('vertical') 
+            ? `p1-${String.fromCharCode(96 + y + i)}${x}` 
+            : `p1-${String.fromCharCode(96 + y)}${x + i}`;
+        const cell = document.getElementById(cellId);
+        if (cell) {
+            cell.style.backgroundImage = `url(${imageUrl})`;
+            cell.style.backgroundSize = card.classList.contains('vertical') 
+                ? `${cellSize}px ${cellSize * size}px` 
+                : `${cellSize * size}px ${cellSize}px`;
+            cell.style.backgroundPosition = card.classList.contains('vertical') 
+                ? `0px -${i * cellSize}px` 
+                : `-${i * cellSize}px 0px`;
+            cell.style.backgroundRepeat = 'no-repeat';
+            cell.classList.add(shipClass);
+        }
+    }
+}
+
+// Crear tabla de posiciones dinámicamente
+function crearTabla(i) {
+    const board = document.getElementById(`battleship-board-p${i}`);
+
+    // Crear encabezado de columnas
+    const columnas = [''].concat(Array.from({ length: 10 }, (_, i) => i + 1));
+    columnas.forEach(num => {
+        const columnaDiv = document.createElement('div');
+        columnaDiv.className = 'columna-ID';
+        columnaDiv.innerText = num;
+        board.appendChild(columnaDiv);
+    });
+
+    // Crear filas y celdas
+    const filas = 'ABCDEFGHIJ'.split('');
+    filas.forEach(letra => {
+        const filaDiv = document.createElement('div');
+        filaDiv.className = 'fila-ID';
+        filaDiv.innerText = letra;
+        board.appendChild(filaDiv);
+
+        for (let j = 1; j <= 10; j++) {
+            const celdaDiv = document.createElement('div');
+            celdaDiv.className = 'position';
+            celdaDiv.id = `p${i}-${letra.toLowerCase()}${j}`;
+            board.appendChild(celdaDiv);
+        }
+    });
+}
+
+
+// Guardar posiciones iniciales al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.dataset.initialPosition = `${card.offsetLeft},${card.offsetTop}`;
+    });
+
+    crearTabla(1);  // Asegúrate de que la tabla se cree correctamente al cargar la página
+});
+
+// Enlazar la función al botón
+// document.querySelector('.limpiar-tablero').addEventListener('click', limpiarTablero);
+
+// Función para cambiar la dirección de las cards
+function cambiarDireccion() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.classList.toggle('vertical');
+    });
+}
+
+function validarBarcos() {
+    const barcos = ['portaaviones', 'acorazado', 'submarino', 'crucero', 'destructor'];
+    const cells = document.querySelectorAll('.battleship-board-p1 .position');
+
+    const barcosEnTablero = barcos.map(barco => {
+        for (let cell of cells) {
+            if (cell.classList.contains(barco)) {
+                return true;
+            }
+        }
+        return false;
+    });
+    const todosEnTablero = barcosEnTablero.every(presente => presente);
+
+    if (todosEnTablero) {
+        //window.location.href = '1v1.html';
+    } else {
+        Swal.fire({ 
+            title: 'Aún faltan barcos por colocar en el tablero.', 
+            icon: 'warning', 
+            confirmButtonText: 'Entendido', 
+            confirmButtonColor: '#1e1e1e',
+            background: '#2c2c2c', 
+            iconColor: '#ff00ff',
+            confirmButtonColor: '#ff00ff',
+        });
+    }
+
+    saveBoardAndSendToServer();
+    return todosEnTablero;
+}
+
+function limpiarTablero() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        // Volver a la posición inicial
+        const initialPosition = card.dataset.initialPosition.split(',');
+        card.style.top = initialPosition[1] + 'px';
+        card.style.left = initialPosition[0] + 'px';
+        card.style.display = 'block';
+        // Asegurarse de que todas las cards estén en posición horizontal
+        card.classList.remove('vertical');
+    });
+
+    // Limpiar las celdas del tablero
+    const cells = document.querySelectorAll('.battleship-board-p1 .position');
+    cells.forEach(cell => {
+        cell.style.backgroundImage = '';
+        cell.className = 'position'; // Remover cualquier clase de barco
+    });
+}
+
+function saveBoardAndSendToServer() {
+    const boardState = document.getElementById('battleship-board-p1').innerHTML;
+
     if (!boardState) {
         console.error('Board not found in local storage:', boardKey);
         return;
     }
-    socket.send(JSON.stringify({ type: 'sendBoard', gameId, boardState, playerId }));
-    
-    console.log('Board sent to server:', boardKey);
-}
 
-// socket.addEventListener('message', event => {
-//     const message = JSON.parse(event.data);
+    console.log(gameId, boardState, playerId);
 
-//     if(message.type === 'boards'){
-//         const boards = message.boardState;
-
-//         loadBoard(1, boards[0]);
-//         loadBoard(2, boards[1]);
-//     }
-// });
-
-// Función para cargar la tabla en el contenedor
-// function loadBoard(playerId, boardState) {
-//     const containerId = playerId === 1 ? 'battleship-container-p1' : 'battleship-container-p2';
-//     const container = document.getElementById(containerId);
-
-//     if (container) {
-//         container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevas celdas
-
-//         // Crear la representación del tablero a partir del estado de la tabla
-//         for (let row of boardState.split('\n')) {
-//             const rowDiv = document.createElement('div');
-//             rowDiv.className = 'row';
-//             for (let cell of row.split('')) {
-//                 const cellDiv = document.createElement('div');
-//                 cellDiv.className = 'cell';
-//                 cellDiv.innerText = cell; // Ajusta esto según tu representación del tablero
-//                 rowDiv.appendChild(cellDiv);
-//             }
-//             container.appendChild(rowDiv);
-//         }
-//     }
-
-//     console.log(container);
-//     console.log()
-// }
-
-function loadBoards(playerId){
-
-    let board = document.getElementById('battleship-board-p1');
-
-    if(board){
-        board.innerHTML = localStorage.getItem(`savedBoard-${playerId}`);
-        console.log('Tablero 1 cargado');
-    }
-    else{
-        console.log('No se encontraron los tableros');
-    }
-}
-
-function shoot(event) {
-    const classList = event.target.classList;
-    if (classList == 'position') {
-        event.target.classList.add('missed');
-    } else if (
-        classList.contains('acorazado') || classList.contains('submarino') || 
-        classList.contains('portaaviones') || classList.contains('destructor') || 
-        classList.contains('crucero')
-    ) {
-        event.target.appendChild(document.createElement('div')).className = 'hit';
-    }
-    // checkIfSink();
-}
-
-// Función para verificar si se hundió un barco
-function checkIfSink() {
-    const acorazado = document.querySelectorAll('.acorazado.hit');
-    const submarino = document.querySelectorAll('.submarino.hit');
-    const portaaviones = document.querySelectorAll('.portaaviones.hit');
-    const destructor = document.querySelectorAll('.destructor.hit');
-    const crucero = document.querySelectorAll('.crucero.hit');
-
-    const ships = [acorazado, submarino, portaaviones, destructor, crucero];
-
-    for (let ship of ships) {
-        for(let position of ship){
-            if(!position.classList.contains('hit')){
-                break;
-            }
-        }
-    }
+    socket.send(JSON.stringify({ type: 'sendBoard', gameId: gameId, boardState, playerId }));
+    socket.send(JSON.stringify({ type: 'joinGame', gameId: gameId }));
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alejandro Cifuentes"/>
+    <meta name="description" content="Es un juego de batalla naval" />
+    <meta name="keywords" content="Batalla naval, juego, taller" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Batalla Naval</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3117/3117957.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Iceland&family=Kiwi+Maru&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cyber.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<body id="juego-select">
+    <div class="main-container wrapper" >
+        <header>
+            <center><h1>BATALLA NAVAL</h1></center>
+            <div class="texto-japones glitched">バタル・シップ</div>
+            <nav id="main-nav">
+                <center>
+                    &nbsp;<a href="index.html" class="opciones glitched">Inicio</a> &nbsp;| 
+                    &nbsp;<a href="instrucciones.html" class="opciones glitched">Instrucciones</a> &nbsp;| 
+                    &nbsp;<a href="seleccion.html" class="opciones glitched">Jugar</a>&nbsp;| 
+                </center>
+            </nav>
+        </header>
+        
+        <div class="game-ops-wrapper">
+            <div class="game-ops">
+                <br>
+                <div class="button-container">
+                    <button class="game-button" id="create-game">Crear partida</button>
+                </div>
+                <div class="button-container">
+                    <button class="game-button" id="join-game" >Unirte a un juego</button>
+                </div>
+            </div>  
+            <div>
+                <button id="start-game" class="server-operation">¡Iniciar la partida!</button>
+                <button id="send-move" class="server-operation">Enviar el movimiento</button>
+                <button id="leave-game" class="server-operation">¡Abandonar la partida!</button>
+                <button id="close-connection" class="client-operation">Cerrar la conexión con el servidor</button>
+            </div>
+
+            <div>
+                <input type="text" id="game-id" class="server-operation" placeholder="ID del juego">
+                <input type="text" id="move" class="server-operation" placeholder="Movimiento (p. ej. A1)">
+            </div>
+        </div>
+
+        <label id="message"> 
+            <style>
+                #message {
+                    color: #ffff33;
+                    font-size: 1.5em;
+                    font-weight: bold;
+                }
+                </style>
+        </label>
+
+        <div id="content"></div>
+    </div>
+
+    <!-- <script>
+        function loadContent(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.game-ops-wrapper').style.display = 'none';
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script> -->
+    <script src="../js/script.js"></script>    
+</body>
+</html>
+
+

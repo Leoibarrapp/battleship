@@ -438,12 +438,15 @@ h1 {
     background-position: right;
 }
 
-.vertical {
-    rotate: 90deg;
-}
+
 
 
 .barcos {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px;
+    position: relative;
     margin-top:  30px;
     display: flex;
     flex-direction: row; 
@@ -648,4 +651,129 @@ h1 {
 
 .sunk {
     background-color: purple;
+}
+
+
+.card{
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 5px;
+}
+
+#card-portaaviones {
+    width: 220px;
+    height: 44px;
+}
+
+#card-acorazado {
+    width: 176px;
+    height: 44px;
+}
+
+#card-crucero {
+    width: 132px;
+    height: 44px;
+}
+
+
+
+#card-destructor {
+    width: 88px;
+    height: 44px;
+}
+
+#card-submarino {
+    width: 132px;
+    height: 44px;
+}
+
+
+#cards-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    
+}
+
+.card-wrapper {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-wrapper p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: #FFFF33;
+    text-shadow: 0 0 5px #FFFF33, 0 0 10px #FFFF33, 0 0 20px #FFFF33;
+    margin: 10px 0;
+}
+
+.estrategia-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 100px; 
+}
+
+.vertical {
+    transform: rotate(90deg);
+    transform-origin: top left;
+}
+
+
+
+.card-wrapper {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    margin: 10px;
+}
+
+
+.card-wrapper p {
+    margin-top: 75px; 
+    text-align: center; 
+    font-family: 'Orbitron', sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+.card-wrapper p {
+    margin-top: 60px; 
+    text-align: center; 
+    font-family: 'Orbitron', sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+    position: relative;
+    top: 100%; 
+    transform: translateY(100%);
+}
+
+.game-ops-wrapper {
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    height: 60%;  
+}
+
+.game-ops {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;  /* Ajusta el espacio entre los botones si es necesario */
 }
