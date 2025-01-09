@@ -223,10 +223,7 @@ body h2{
     
 }
 
-.position:hover, .highlight {
-    background-color: #FFFF33;
-    transition: 0.3s;
-}
+[class="position"]:hover { background-color: #FFFF33; transition: 0.3s;}
 
 
 
@@ -452,7 +449,8 @@ h1 {
     flex-direction: row; 
     align-items: center;
     justify-content: center;
-    gap: 40px; width: 100%;
+    gap: 40px; 
+    width: 100%;
     border: 3px solid transparent;
     box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #ff00ff;  
     border-radius: 15px;  
@@ -629,7 +627,7 @@ h1 {
     font-size: 3rem; 
 }
 
-.button-container {
+.buttons-container {
     display: flex; 
     justify-content: center; 
     margin-top: 15px; 
@@ -766,14 +764,7 @@ h1 {
 
 .game-ops-wrapper {
     display: flex; 
-    justify-content: center;
+    flex-direction: column; 
     align-items: center; 
-    height: 60%;  
-}
-
-.game-ops {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;  /* Ajusta el espacio entre los botones si es necesario */
+    gap: 16px;
 }

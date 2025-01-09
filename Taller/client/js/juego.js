@@ -1,15 +1,42 @@
-function loadBoards(playerId){
+import { socket, currentGameId, currentPlayerId } from "./socket.js";
 
-    let board = document.getElementById('battleship-board-p1');
+function crearTabla(i) {
+    const board = document.getElementById(`battleship-board-p${i}`);
 
-    if(board){
-        board.innerHTML = localStorage.getItem(`savedBoard-p${playerId}-${currentGameId}`);
-        console.log('Tablero cargado');
-    }
-    else{
-        console.log('No se encontraron los tableros');
-    }
+    // Crear encabezado de columnas
+    const columnas = [''].concat(Array.from({ length: 10 }, (_, i) => i + 1));
+    columnas.forEach(num => {
+        const columnaDiv = document.createElement('div');
+        columnaDiv.className = 'columna-ID';
+        columnaDiv.innerText = num;
+        board.appendChild(columnaDiv);
+    });
+
+    // Crear filas y celdas
+    const filas = 'ABCDEFGHIJ'.split('');
+    filas.forEach(letra => {
+        const filaDiv = document.createElement('div');
+        filaDiv.className = 'fila-ID';
+        filaDiv.innerText = letra;
+        board.appendChild(filaDiv);
+
+        for (let j = 1; j <= 10; j++) {
+            const celdaDiv = document.createElement('div');
+            celdaDiv.className = 'position';
+            celdaDiv.id = `p${i}-${letra.toLowerCase()}${j}`;
+            if(i != 1) {
+                celdaDiv.addEventListener('click', shoot);
+            }
+            board.appendChild(celdaDiv);
+        }
+    });
 }
+
+crearTabla(1);
+//no hemos podido lograr que se carguen las tablas desde el websocket
+document.getElementById('battleship-board-p1').innerHTML = localStorage.getItem('board');
+//cuando se logre, se cargarán las tablas desde el websocket y no se necesitará el localStorage
+crearTabla(2);
 
 function shoot(event) {
     const classList = event.target.classList;
@@ -44,3 +71,6 @@ function checkIfSink() {
     }
 }
 
+document.getElementById('leave-game').addEventListener('click', () => {
+    socket.send(JSON.stringify({ type: 'leave', currentGameId }));
+});

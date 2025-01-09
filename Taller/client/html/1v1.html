@@ -24,7 +24,7 @@
                 <center>
                     &nbsp;<a href="index.html" class="opciones glitched">Inicio</a> &nbsp;| 
                     &nbsp;<a href="instrucciones.html" class="opciones glitched">Instrucciones</a> &nbsp;| 
-                    &nbsp;<a href="juego.html" class="opciones glitched">Jugar</a>&nbsp;| 
+                    &nbsp;<a href="seleccion.html" class="opciones glitched">Jugar</a>&nbsp; 
                 </center>
                 
             </nav>
@@ -69,38 +69,40 @@
                 <div class="battleship-board-p1" id="battleship-board-p1"></div>
             </div>
 
-            <script src="../js/script.js"></script>
+            <script src="../js/juego.js" type="module"></script>
 
             <div class="progreso-mi-flota-wrapper">
                 <div class="progreso-mi-flota">  
         
-                    <div class="portaaviones mi-flota"  draggable="true">
-                    <img src="../assets/portaaviones.png" style="width: 220px; height: 44px;">
-                    <p>Portaaviones</p>
+                    <div class="mi-flota"  draggable="false">
+                        <img src="../assets/portaaviones.png" style="width: 220px; height: 44px;" draggable="false">
+                        <p>Portaaviones</p>
                     </div>    
         
-                    <div class="acorazado mi-flota"  draggable="true">
-                    <img src="../assets/acorazado.png" style="width: 176px; height: 44px;">
-                    <p>Acorazado</p>
+                    <div class="mi-flota"  draggable="false">
+                        <img src="../assets/acorazado.png" style="width: 176px; height: 44px;" draggable="false">
+                        <p>Acorazado</p>
                     </div> 
         
-                    <div class="crucero mi-flota"  draggable="true">
-                    <img src="../assets/crucero.png" style="width: 132px; height: 44px;">
-                    <p>Crucero</p>
+                    <div class="mi-flota"  draggable="false">
+                        <img src="../assets/crucero.png" style="width: 132px; height: 44px;" draggable="false">
+                        <p>Crucero</p>
                     </div> 
         
-                    <div class="submarino mi-flota"  draggable="true">
-                    <img src="../assets/submarino.png" style="width: 132px; height: 44px;">
-                    <p>Submarino</p>
+                    <div class="mi-flota"  draggable="false">
+                        <img src="../assets/submarino.png" style="width: 132px; height: 44px;" draggable="false">
+                        <p>Submarino</p>
                     </div> 
         
-                    <div class="destructor mi-flota"  draggable="true">
-                    <img src="../assets/destructor.png" style="width: 88px; height: 44px;">
-                    <p>Destructor</p>
+                    <div class="mi-flota"  draggable="false">
+                        <img src="../assets/destructor.png" style="width: 88px; height: 44px;" draggable="false">
+                        <p>Destructor</p>
                     </div> 
         
                 </div>   
             </div>
+
+            <button id="leave-game" class="game-button close">Abandonar partida</button>
         </div>  
     </div>
     <footer>

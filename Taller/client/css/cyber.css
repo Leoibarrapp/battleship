@@ -101,6 +101,12 @@ button.game-button {
     transition: background-color 0.3s ease, color 0.3s ease; 
 }
 
+button.game-button.close {
+    --background-color: #ff0000; /* Cambiado a rojo */
+    text-shadow: 
+    0 0 5px #ff0000, /* Cambiado a rojo */
+    0 0 15px #ff0000; /* Cambiado a rojo */
+}
 
 button.game-button:hover,
 button.game-button:focus {
@@ -179,6 +185,32 @@ button.game-button:focus:after {
     
 }
 
+
+input {
+    display: block;
+    border: 2px solid #00ffff; /* Borde cian */
+    font-size: 1.2rem;
+    line-height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    padding: 15px 20px;
+    color: #000000; /* Texto en negro */
+    background-color: #ffff33; /* Fondo amarillo */
+    outline: none;
+    text-align: center;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px; /* Bordes redondeados */
+    caret-color: #00ffff; /* Color del cursor cian */
+}
+
+input::placeholder {
+    color: #4b0082; /* Color del placeholder en índigo */
+    text-shadow: none; /* Sin sombra en el placeholder */
+}
+
+input:focus {
+    border-color: #ff00ff; /* Color del borde magenta cuando se enfoca */
+    background-color: #ffd700; /* Fondo amarillo dorado cuando se enfoca */
+}
 
 
 

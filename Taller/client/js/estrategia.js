@@ -1,5 +1,8 @@
-let gameId = localStorage.getItem('currentGameId') || null;
-let playerId = sessionStorage.getItem('currentPlayerId') || null;
+import { socket, currentGameId, currentPlayerId } from "./socket.js";
+
+document.getElementById('limpiar-tablero').addEventListener('click', limpiarTablero);
+document.getElementById('comenzar-juego').addEventListener('click', validarBarcos);
+document.getElementById('cambiar-direccion').addEventListener('click', cambiarDireccion);
 
 let newX = 0, newY = 0, startX = 0, startY = 0;
 let initialX = 0, initialY = 0;  // Variables para almacenar la posición inicial
@@ -9,6 +12,8 @@ const board = document.getElementById('battleship-board-p1');
 
 cards.forEach(card => {
     card.addEventListener('mousedown', (e) => mouseDown(e, card));
+    // Guardar posición inicial al cargar la página
+    card.dataset.initialPosition = `${card.offsetLeft},${card.offsetTop}`;
 });
 
 function mouseDown(e, card) {
@@ -36,6 +41,8 @@ function mouseMove(e, card) {
 
     card.style.top = (card.offsetTop - newY) + 'px';
     card.style.left = (card.offsetLeft - newX) + 'px';
+
+    highlightPassingCells(card);
 }
 
 function mouseUp(card, mouseMoveHandler, mouseUpHandler) {
@@ -50,6 +57,32 @@ function mouseUp(card, mouseMoveHandler, mouseUpHandler) {
 
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
+}
+
+function highlightPassingCells(card) {
+    const cardRect = card.getBoundingClientRect();
+    const boardRect = board.getBoundingClientRect();
+    const cellSize = 44;  // Tamaño de cada celda en px
+    const offsetX = cardRect.left - boardRect.left;
+    const offsetY = cardRect.top - boardRect.top;
+    const gridX = Math.round(offsetX / cellSize) * cellSize;
+    const gridY = Math.round(offsetY / cellSize) * cellSize;
+    const size = getSize(card);
+
+    const cells = document.querySelectorAll('.position');
+    cells.forEach(cell => {
+        cell.style.backgroundColor = ''; // Restaurar color original
+    });
+
+    for (let i = 0; i < size; i++) {
+        const cellId = card.classList.contains('vertical') 
+            ? `p1-${String.fromCharCode(96 + (gridY / cellSize) + i)}${gridX / cellSize}` 
+            : `p1-${String.fromCharCode(96 + (gridY / cellSize))}${(gridX / cellSize) + i}`;
+        const cell = document.getElementById(cellId);
+        if (cell) {
+            cell.style.backgroundColor = '#FFFF33';
+        }
+    }
 }
 
 function isWithinBoard(card) {
@@ -104,10 +137,11 @@ function alignToGrid(card) {
     card.style.left = `${gridX}px`;
 
     // Cambiar el fondo de las casillas correspondientes
-    highlightCells(card, gridX / cellSize, gridY / cellSize);
+    drop(card, gridX / cellSize, gridY / cellSize);
+    
 }
 
-function highlightCells(card, x, y) {
+function drop(card, x, y) {
     const cellSize = 44;  // Tamaño de cada celda en px
     let imageUrl;
     let size;
@@ -159,7 +193,25 @@ function highlightCells(card, x, y) {
                 : `-${i * cellSize}px 0px`;
             cell.style.backgroundRepeat = 'no-repeat';
             cell.classList.add(shipClass);
+            cell.style.backgroundColor = '';
         }
+    }
+}
+
+function getSize(card) {
+    switch(card.id) {
+        case 'card-portaaviones':
+            return 5;
+        case 'card-acorazado':
+            return 4;
+        case 'card-submarino':
+            return 3;
+        case 'card-crucero':
+            return 3;
+        case 'card-destructor':
+            return 2;
+        default:
+            return 1;
     }
 }
 
@@ -193,30 +245,18 @@ function crearTabla(i) {
     });
 }
 
-
-// Guardar posiciones iniciales al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.dataset.initialPosition = `${card.offsetLeft},${card.offsetTop}`;
-    });
-
-    crearTabla(1);  // Asegúrate de que la tabla se cree correctamente al cargar la página
-});
-crearTabla(1);  // Asegúrate de que la tabla se cree correctamente al cargar la página
-// Enlazar la función al botón
-// document.querySelector('.limpiar-tablero').addEventListener('click', limpiarTablero);
+crearTabla(1);
 
 // Función para cambiar la dirección de las cards
-function cambiarDireccion() {
+export function cambiarDireccion() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         card.classList.toggle('vertical');
     });
 }
 
-function validarBarcos() {
-    const barcos = ['portaaviones', 'acorazado', 'submarino', 'crucero', 'destructor'];
+export function validarBarcos() {
+    const barcos =  ['portaaviones', 'acorazado', 'submarino', 'crucero', 'destructor'];
     const cells = document.querySelectorAll('.battleship-board-p1 .position');
 
     const barcosEnTablero = barcos.map(barco => {
@@ -230,7 +270,8 @@ function validarBarcos() {
     const todosEnTablero = barcosEnTablero.every(presente => presente);
 
     if (todosEnTablero) {
-        //window.location.href = '1v1.html';
+        saveBoardAndSendToServer();
+        window.location.href = '1v1.html';
     } else {
         Swal.fire({ 
             title: 'Aún faltan barcos por colocar en el tablero.', 
@@ -239,15 +280,13 @@ function validarBarcos() {
             confirmButtonColor: '#1e1e1e',
             background: '#2c2c2c', 
             iconColor: '#ff00ff',
-            confirmButtonColor: '#ff00ff',
         });
     }
 
-    saveBoardAndSendToServer();
     return todosEnTablero;
 }
 
-function limpiarTablero() {
+export function limpiarTablero() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         // Volver a la posición inicial
@@ -257,7 +296,16 @@ function limpiarTablero() {
         card.style.display = 'block';
         // Asegurarse de que todas las cards estén en posición horizontal
         card.classList.remove('vertical');
+        
+        // Forzar la recarga de la imagen
+        const cardImage = card.querySelector('img');
+        if (cardImage) {
+            const imageSrc = cardImage.src;
+            cardImage.src = '';
+            cardImage.src = imageSrc;
+        }
     });
+    
 
     // Limpiar las celdas del tablero
     const cells = document.querySelectorAll('.battleship-board-p1 .position');
@@ -275,8 +323,9 @@ function saveBoardAndSendToServer() {
         return;
     }
 
-    console.log(gameId, boardState, playerId);
-
-    socket.send(JSON.stringify({ type: 'sendBoard', gameId: gameId, boardState, playerId }));
-    socket.send(JSON.stringify({ type: 'joinGame', gameId: gameId }));
+    //se guarda en el localstorage porque no se ha podido lograr que se carguen las tablas desde el websocket
+    localStorage.setItem('board', boardState);
+    
+    socket.send(JSON.stringify({ type: 'sendBoard', gameId: currentGameId, boardState, playerId: currentPlayerId }));
+    socket.send(JSON.stringify({ type: 'joinGame', gameId: currentGameId }));
 }
