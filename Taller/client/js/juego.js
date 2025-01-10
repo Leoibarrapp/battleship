@@ -73,4 +73,5 @@ function checkIfSink() {
 
 document.getElementById('leave-game').addEventListener('click', () => {
     socket.send(JSON.stringify({ type: 'leave', currentGameId }));
+    location.href = 'index.html';
 });
