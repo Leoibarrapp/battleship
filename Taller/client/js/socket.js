@@ -4,9 +4,15 @@ export let currentGameId;
 export let currentPlayerId;
 const clientMessage = document.getElementById("message");
 
-socket.addEventListener( 'open', () => {
+
+
+socket.onopen = () => {
     console.log(`Conectado al servidor`);
-});
+};
+
+socket.onclose = () => {
+    clientMessage.textContent = 'No se pudo conectar al servidor. Por favor, recargue la página.';
+}
 
 socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
