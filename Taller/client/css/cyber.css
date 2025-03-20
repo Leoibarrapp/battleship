@@ -1,0 +1,238 @@
+
+.texto-japones {
+    font-family: 'Orbitron', serif; 
+    font-weight: 400; 
+    font-size: 3rem; 
+    color: #ff00ff;
+    font-style: italic;
+    text-shadow: 
+        0 0 5px #ff00ff,  
+        0 0 15px #ff00ff, 
+        0 0 30px #00ffff, 
+        0 0 40px #00ffff; 
+    letter-spacing: 2px; 
+    margin: 0;
+    display: inline-block;
+    position: relative;
+    text-decoration: none; 
+    top: -60px; 
+    right: -190px; 
+}
+
+/* #batalla-naval-page .texto-japones{
+    font-size: 6rem; 
+    top: -100px; 
+    right: -590px; 
+} */
+
+
+.texto-japones.glitched {
+    animation: glitch 1s infinite;
+}
+
+.titulo.glitched{
+    animation :  glitch 1s infinite;  
+}
+
+@keyframes glitch {
+    0% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translateX(0);
+    }
+    10% {
+        text-shadow: -2px 0 red, 2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translateX(-2px);
+    }
+    20% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translateX(2px);
+    }
+    30% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translateX(-2px);
+    }
+    40% {
+        text-shadow: -2px 0 red, 2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translateX(0);
+    }
+    100% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translateX(0);
+    }
+}
+
+
+:root {
+    --glitched-duration: 0.9s;
+}
+
+button.game-button {
+    --background-color: #00ffff; 
+    display: block;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 100%;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Orbitron', sans-serif;
+    padding: 35px 75px;
+    margin: 10px;
+    position: relative;
+    color: #ffffff; 
+    text-shadow: 
+    0 0 5px #00ffff, 
+    0 0 15px #00ffff, 
+    0 0 30px #ff00ff, 
+    0 0 40px #ff00ff; 
+    border-right: 3px solid #8ae66e;
+    clip-path: polygon(
+        -15px 0%,
+        calc(100% + 15px) 0%,
+        calc(100% + 15px) 100%,
+        20px 100%,
+        -15px calc(100% - 35px)
+    );
+    cursor: pointer;
+    background-color: var(--background-color);
+    outline: none;
+    text-align: center;
+    overflow: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+button.game-button.close {
+    --background-color: #ff0000; /* Cambiado a rojo */
+    text-shadow: 
+    0 0 5px #ff0000, /* Cambiado a rojo */
+    0 0 15px #ff0000; /* Cambiado a rojo */
+}
+
+button.game-button:hover,
+button.game-button:focus {
+    background-color: #FFFF33; 
+    color: #ffffff; 
+    animation: glitch-btn 1s infinite;
+}
+
+@keyframes glitch-btn {
+    0% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translate(0, 0);
+    }
+    10% {
+        text-shadow: -2px 0 red, 2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translate(-2px, -2px);
+    }
+    20% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translate(2px, 2px);
+    }
+    100% {
+        text-shadow: 2px 0 red, -2px 0 blue, 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+        transform: translate(0, 0);
+    }
+}
+
+button.game-button:after {
+    content: "A-2%C";
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    right: 25px;
+    padding: 2px 2px 0px 2px;
+    font-size: 0.6rem;
+    line-height: 9px;
+    color: #000; 
+    background-color: #f9f002;
+    border-left: 2px solid #8ae66e;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+
+button.game-button:hover:after,
+button.game-button:focus:after {
+    background-color: #00FFFF;
+    color: #FFFF33; 
+    animation: hoverafter 0.5s infinite;
+}
+
+
+@keyframes hoverafter {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-2px);
+    }
+}
+
+.boton-inico { 
+    position: fixed; 
+    bottom: 60px; 
+    right: 60px; 
+    font-family: "Orbitron";
+    font-size: 2rem;
+    font-weight: bold;
+    color: #FFFF33; 
+    cursor: pointer;
+    text-shadow: 0 0 5px #FFFF33, 0 0 10px #FFFF33, 0 0 20px #FFFF33;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    animation: neon-flicker 1.5s infinite alternate; 
+    background: none;
+    border: none;
+    
+}
+
+
+input {
+    display: block;
+    border: 2px solid #00ffff; /* Borde cian */
+    font-size: 1.2rem;
+    line-height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    padding: 15px 20px;
+    color: #000000; /* Texto en negro */
+    background-color: #ffff33; /* Fondo amarillo */
+    outline: none;
+    text-align: center;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px; /* Bordes redondeados */
+    caret-color: #00ffff; /* Color del cursor cian */
+}
+
+input::placeholder {
+    color: #4b0082; /* Color del placeholder en índigo */
+    text-shadow: none; /* Sin sombra en el placeholder */
+}
+
+input:focus {
+    border-color: #ff00ff; /* Color del borde magenta cuando se enfoca */
+    background-color: #ffd700; /* Fondo amarillo dorado cuando se enfoca */
+}
+
+
+
+
+@keyframes neon-flicker {
+    0%, 100% {
+        text-shadow: 0 0 5px #FFFF33, 0 0 10px #FFFF33, 0 0 20px #FFFF33, 0 0 30px #FFFF33;
+        opacity: 1; 
+    }
+    50% {
+        text-shadow: 0 0 2px #FFFF33, 0 0 4px #FFFF33, 0 0 8px #FFFF33, 0 0 12px #FFFF33;
+        opacity: 0.5; 
+    }
+}
+
+.disabled {
+    opacity: 0.5; /* Hace que el botón se vea más tenue */
+    transition: 1s;
+    pointer-events: none;
+}
+
+.disabled .enabled {
+    opacity: 1; /* Hace que el elemento habilitado se vea completamente */
+    pointer-events: auto;
+}
+
