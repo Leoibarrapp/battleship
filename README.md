@@ -129,7 +129,7 @@ battleship/
 
 - **Alejandro Cifuentes** - Desarrollo Frontend y Backend
 - **Mariana Fes** - Desarrollo Backend y Sistema de Torneos  
-- **Leonardo Ibarra** - Desarrollo Frontend y UI/UX
+- **Leonardo Ibarra** - Desarrollo Frontend y UX/UI, y conexión de Websockets
 
 ## Estado Actual del Proyecto
 
